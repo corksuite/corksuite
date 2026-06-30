@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { brand } from "@/config/brand";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,8 +14,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CorkSuite",
+  applicationName: brand.name,
+  title: {
+    default: brand.name,
+    template: `%s | ${brand.name}`,
+  },
   description: "Unified operational workspace for teams, projects, knowledge, communication, and AI.",
+  icons: {
+    icon: [{ url: "/favicon.ico", sizes: "any" }],
+    shortcut: "/favicon.ico",
+    apple: brand.assets.mark,
+  },
 };
 
 export default function RootLayout({
