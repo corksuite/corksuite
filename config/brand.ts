@@ -1,5 +1,5 @@
 export const brand = {
-  name: "CorkSuite",
+  name: "Cork Suite",
   shortName: "Cork",
   assets: {
     lockup: "/assets/brand/cork-brand-lockup.png",

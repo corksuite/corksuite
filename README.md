@@ -1,6 +1,6 @@
 # CorkSuite
 
-CorkSuite is a unified operational workspace for teams that need their work, conversations, knowledge, decisions, and AI assistance to live in one coherent environment.
+Cork Suite is a unified operational workspace for teams that need their work, conversations, knowledge, decisions, and AI assistance to live in one coherent environment.
 
 It is not designed as a bundle of separate tools. The goal is a single operational nexus where project management, tasks, communication, huddles, documents, notifications, identity, organizations, and AI features share the same context instead of forcing people to switch between disconnected applications.
 
@@ -8,7 +8,7 @@ It is not designed as a bundle of separate tools. The goal is a single operation
 
 Modern teams lose momentum when every workflow lives in a different place. A project update sits in one tool, the decision that caused it sits in chat, the document that explains it sits elsewhere, and the people responsible for it are managed in yet another system.
 
-CorkSuite aims to make that fragmentation disappear.
+Cork Suite aims to make that fragmentation disappear.
 
 The product vision is a contextual workspace where every module understands the surrounding work:
 
@@ -19,11 +19,11 @@ The product vision is a contextual workspace where every module understands the 
 - Notifications point people toward meaningful action, not just activity.
 - AI assists inside the workspace context, helping summarize, suggest, generate, and connect work across domains.
 
-The long-term ambition is for CorkSuite to feel less like software people visit and more like the operating layer through which a team coordinates.
+The long-term ambition is for Cork Suite to feel less like software people visit and more like the operating layer through which a team coordinates.
 
 ## Product Domains
 
-CorkSuite is organized around business domains rather than technical layers:
+Cork Suite is organized around business domains rather than technical layers:
 
 - `auth` for authentication, sessions, and account entry points
 - `workspace` for the shared operational surface
@@ -73,4 +73,4 @@ The repository currently contains the frontend foundation:
 - Domain module folders for future feature work
 - Infrastructure placeholders for API, auth, environment, and realtime services
 
-Feature screens are intentionally not built yet. The priority at this stage is a scalable structure that can support CorkSuite as a large enterprise application without turning into a collection of unrelated apps.
+Feature screens are intentionally not built yet. The priority at this stage is a scalable structure that can support Cork Suite as a large enterprise application without turning into a collection of unrelated apps.
