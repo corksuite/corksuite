@@ -1,5 +1,16 @@
-import { ComingSoon } from "@/components/feedback/coming-soon";
+import type { Metadata } from "next";
+
+import { AuthShell, ForgotPasswordForm } from "@/modules/auth";
+
+export const metadata: Metadata = {
+  title: "Reset password",
+  description: "Reset your Cork account password.",
+};
 
 export default function ForgotPasswordPage() {
-  return <ComingSoon eyebrow="Identity" title="Password recovery" />;
+  return (
+    <AuthShell>
+      <ForgotPasswordForm />
+    </AuthShell>
+  );
 }

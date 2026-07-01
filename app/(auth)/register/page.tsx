@@ -1,5 +1,16 @@
-import { ComingSoon } from "@/components/feedback/coming-soon";
+import type { Metadata } from "next";
+
+import { AuthShell, RegisterForm } from "@/modules/auth";
+
+export const metadata: Metadata = {
+  title: "Create account",
+  description: "Create your Cork workspace.",
+};
 
 export default function RegisterPage() {
-  return <ComingSoon eyebrow="Identity" title="Create account" />;
+  return (
+    <AuthShell>
+      <RegisterForm />
+    </AuthShell>
+  );
 }
