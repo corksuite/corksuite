@@ -1,56 +1,54 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-import { brand } from "@/config/brand";
-import { workspaceNavigation } from "@/config/routes";
+import { SidebarProvider, useSidebar } from "@/contexts/sidebar-context";
+import { CommandPaletteProvider } from "@/contexts/command-palette-context";
+import { Header } from "@/components/layout/header";
+import { Sidebar } from "@/components/layout/sidebar";
+import { CommandPalette } from "@/components/navigation";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 type AppShellProps = {
   children: React.ReactNode;
 };
 
+/**
+ * Content region. Offsets below the fixed header and to the right of the fixed
+ * desktop rail, and is the only part of the shell that scrolls.
+ */
+function ShellMain({ children }: { children: React.ReactNode }) {
+  const { collapsed } = useSidebar();
+
+  return (
+    <main
+      style={{ "--rail-w": collapsed ? "72px" : "260px" } as React.CSSProperties}
+      className={cn(
+        "min-h-dvh pt-16 transition-[padding] duration-200 ease-in-out",
+        "lg:pl-(--rail-w)",
+      )}
+    >
+      {children}
+    </main>
+  );
+}
+
+/**
+ * The authenticated application shell: a fixed header, a fixed collapsible
+ * sidebar, and a scrollable content area. Wraps every workspace page.
+ */
 export function AppShell({ children }: AppShellProps) {
   return (
-    <div className="flex min-h-dvh flex-1 bg-background text-foreground">
-      <aside className="hidden w-64 border-r border-border bg-muted/30 px-4 py-5 md:block">
-        <Link href="/dashboard" className="flex items-center gap-3">
-          <Image
-            src={brand.assets.lockup}
-            alt={brand.name}
-            width={44}
-            height={44}
-            priority
-            className="size-11 rounded-md object-contain"
-          />
-          <span className="text-lg font-semibold">{brand.name}</span>
-        </Link>
-        <nav className="mt-8 grid gap-1">
-          {workspaceNavigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-14 items-center border-b border-border px-4 md:hidden">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <Image
-              src={brand.assets.mark}
-              alt={brand.name}
-              width={28}
-              height={28}
-              priority
-              className="size-7 rounded-md object-contain"
-            />
-            <span className="text-base font-semibold">{brand.name}</span>
-          </Link>
-        </header>
-        <main className="flex flex-1">{children}</main>
-      </div>
-    </div>
+    <SidebarProvider>
+      <CommandPaletteProvider>
+        <TooltipProvider>
+          <div className="min-h-dvh bg-background text-foreground">
+            <Header />
+            <Sidebar />
+            <ShellMain>{children}</ShellMain>
+            <CommandPalette />
+          </div>
+        </TooltipProvider>
+      </CommandPaletteProvider>
+    </SidebarProvider>
   );
 }

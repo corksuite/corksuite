@@ -1,5 +1,6 @@
 import { environment } from "@/config/environment";
 import { apiEndpoints } from "@/services/api/endpoints";
+import { readAccessToken, readRefreshToken } from "@/modules/auth/services/session";
 import type {
   AuthResult,
   AuthSession,
@@ -61,6 +62,28 @@ export async function loginUser(input: LoginInput): Promise<AuthResult> {
     return { ok: false, message: result.message, errors: result.errors };
   }
   return { ok: true, data: result.data };
+}
+
+/**
+ * Best-effort sign out. Notifies the API so it can revoke the refresh token,
+ * but never throws: local session teardown must succeed even if the network
+ * call fails, so the caller always ends up logged out on the client.
+ */
+export async function logoutUser(): Promise<void> {
+  const accessToken = readAccessToken();
+  const refreshToken = readRefreshToken();
+  try {
+    await fetch(`${environment.apiBaseUrl}${apiEndpoints.auth.logout}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
+      body: JSON.stringify(refreshToken ? { refresh: refreshToken } : {}),
+    });
+  } catch {
+    // Server unreachable — the client still clears its session.
+  }
 }
 
 export async function registerUser(input: RegisterInput): Promise<AuthResult> {

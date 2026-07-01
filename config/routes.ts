@@ -9,15 +9,28 @@ export const publicRoutes = {
 
 export const workspaceRoutes = {
   dashboard: "/dashboard",
-  organizations: "/organizations",
-  identity: "/identity",
+  inbox: "/inbox",
+  ai: "/ai",
   projects: "/projects",
   tasks: "/tasks",
+  calendar: "/calendar",
   documents: "/documents",
   chat: "/chat",
   huddles: "/huddles",
   notifications: "/notifications",
-  ai: "/ai",
+  organizations: "/organizations",
+  identity: "/identity",
+  settings: "/settings",
+  profile: "/profile",
+  account: "/account",
+} as const;
+
+export const adminRoutes = {
+  users: "/admin/users",
+  teams: "/admin/teams",
+  roles: "/admin/roles",
+  permissions: "/admin/permissions",
+  auditLogs: "/admin/audit-logs",
 } as const;
 
 export const workspaceNavigation: NavigationItem[] = [

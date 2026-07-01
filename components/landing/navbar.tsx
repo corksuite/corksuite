@@ -7,10 +7,21 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { PageContainer } from "@/components/shared/page-container";
 import { Button } from "@/components/ui/button";
-import { marketingNavigation, publicRoutes } from "@/config/routes";
+import {
+  NotificationButton,
+  ThemeToggle,
+  UserMenu,
+} from "@/components/navigation";
+import { useAuth } from "@/contexts/auth-context";
+import {
+  marketingNavigation,
+  publicRoutes,
+  workspaceRoutes,
+} from "@/config/routes";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
+  const { isAuthenticated, isLoading } = useAuth();
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -54,17 +65,30 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
-            <Button
-              variant="ghost"
-              size="lg"
-              render={<Link href={publicRoutes.login} />}
-            >
-              Sign In
-            </Button>
-            <Button size="lg" render={<Link href={publicRoutes.register} />}>
-              Get Started
-            </Button>
+          <div className="hidden items-center gap-1.5 md:flex">
+            {isLoading ? (
+              // Reserve space during the initial auth read to avoid layout shift.
+              <div aria-hidden className="h-9 w-40" />
+            ) : isAuthenticated ? (
+              <>
+                <NotificationButton />
+                <ThemeToggle />
+                <UserMenu />
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  render={<Link href={publicRoutes.login} />}
+                >
+                  Sign In
+                </Button>
+                <Button size="lg" render={<Link href={publicRoutes.register} />}>
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           <button
@@ -93,21 +117,53 @@ export function Navbar() {
               </Link>
             ))}
             <div className="mt-3 flex flex-col gap-2">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full"
-                render={<Link href={publicRoutes.login} onClick={() => setOpen(false)} />}
-              >
-                Sign In
-              </Button>
-              <Button
-                size="lg"
-                className="w-full"
-                render={<Link href={publicRoutes.register} onClick={() => setOpen(false)} />}
-              >
-                Get Started
-              </Button>
+              {isAuthenticated ? (
+                <div className="flex items-center justify-between gap-2">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="flex-1"
+                    render={
+                      <Link
+                        href={workspaceRoutes.dashboard}
+                        onClick={() => setOpen(false)}
+                      />
+                    }
+                  >
+                    Go to workspace
+                  </Button>
+                  <ThemeToggle />
+                  <UserMenu />
+                </div>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                    render={
+                      <Link
+                        href={publicRoutes.login}
+                        onClick={() => setOpen(false)}
+                      />
+                    }
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    size="lg"
+                    className="w-full"
+                    render={
+                      <Link
+                        href={publicRoutes.register}
+                        onClick={() => setOpen(false)}
+                      />
+                    }
+                  >
+                    Get Started
+                  </Button>
+                </>
+              )}
             </div>
           </PageContainer>
         </div>
